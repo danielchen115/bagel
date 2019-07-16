@@ -143,4 +143,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
+STRIPE_SECRET_KEY = 'sk_test_9ItKhYR2378z6Pxph7jKSsXH00YvG0L6xr'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_DmSR1MjMzyzJvW6RlArtdKjW00Vuvymfuk'
+STRIPE_CONNECT_CLIENT_ID = 'ca_FFxHTlcysOfqOHQSHWWSL0DxU9zj9lND'

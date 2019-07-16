@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 # Create your views here.
 
+
 class RestaurantViewSet(viewsets.ModelViewSet):
     """
     Provides a get method handler.

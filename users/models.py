@@ -27,6 +27,8 @@ class Employee(models.Model):
 class Customer(models.Model):
     tab = models.ForeignKey('restaurants.Tab', on_delete=models.CASCADE, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    stripe_user_id = models.CharField(max_length=255, blank=True)
+    stripe_access_token = models.CharField(max_length=255, blank=True)
     referral_code = models.CharField(default=generate_referral_code, unique=True, editable=False, max_length=7)
 
 
