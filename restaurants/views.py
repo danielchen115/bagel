@@ -4,14 +4,11 @@ from .models import Restaurant
 from .serializers import *
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
-# Create your views here.
+from rest_framework.permissions import IsAuthenticated
 
 
 class RestaurantViewSet(viewsets.ModelViewSet):
-    """
-    Provides a get method handler.
-    """
+    permission_classes = (IsAuthenticated,)
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 

@@ -12,6 +12,7 @@ import stripe
 
 # Create your views here.
 
+
 class StripeAuthorizeView(APIView):
     def get(self, request):
         if not self.request.user.is_authenticated:
