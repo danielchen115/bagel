@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'restaurants.apps.RestaurantsConfig',
     'users.apps.UsersConfig',
     'django_extensions',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -114,10 +115,14 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.TokenAuthentication',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 50,
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.IsAdminUser'
     ],
 }
 
@@ -144,6 +149,12 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+
+# STRIPE SETTINGS
+# @TODO: Put these keys in an env file, not safe here
 STRIPE_SECRET_KEY = 'sk_test_9ItKhYR2378z6Pxph7jKSsXH00YvG0L6xr'
 STRIPE_PUBLISHABLE_KEY = 'pk_test_DmSR1MjMzyzJvW6RlArtdKjW00Vuvymfuk'
 STRIPE_CONNECT_CLIENT_ID = 'ca_FFxHTlcysOfqOHQSHWWSL0DxU9zj9lND'
+
+# GUARDIAN SETTINGS
+GUARDIAN_RAISE_403 = True
