@@ -7,6 +7,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from restaurants.models import Restaurant
+from django.contrib.auth.models import Permission
+from guardian.shortcuts import assign_perm
 
 # Create your models here.
 
@@ -34,6 +36,17 @@ class User(AbstractUser):
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+
+@receiver(post_save, sender=Employee)
+def set_perms(sender, **kwargs):
+    employee, created = kwargs["instance"], kwargs["created"]
+    user = employee.user
+    if created and user.username != settings.ANONYMOUS_USER_NAME:
+        restaurant = employee.restaurant
+        user.user_permissions.add(Permission.objects.get(name='Can view restaurant'))
+        assign_perm("change_employee", user, employee)
+        assign_perm("view_restaurant", user, restaurant)
 
 
 class Customer(models.Model):
