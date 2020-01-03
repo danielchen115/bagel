@@ -15,7 +15,7 @@ class RestaurantViewSet(viewsets.ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
     # Not needed for now... pairs with django guardian to allow filtering of specific model instances
-    filter_backends = [filters.ObjectPermissionsFilter]
+    # filter_backends = [filters.ObjectPermissionsFilter]
 
     @action(detail=True)
     def menu_items(self, request, pk=None):

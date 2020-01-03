@@ -39,13 +39,14 @@ class Employee(models.Model):
 
 
 @receiver(post_save, sender=Employee)
-def set_perms(sender, **kwargs):
+def set_employee_perms(sender, **kwargs):
     employee, created = kwargs["instance"], kwargs["created"]
     user = employee.user
     if created and user.username != settings.ANONYMOUS_USER_NAME:
         restaurant = employee.restaurant
         user.user_permissions.add(Permission.objects.get(name='Can view restaurant'))
         assign_perm("change_employee", user, employee)
+        assign_perm("change_restaurant", user, restaurant)
         assign_perm("view_restaurant", user, restaurant)
 
 
@@ -55,6 +56,15 @@ class Customer(models.Model):
     stripe_user_id = models.CharField(max_length=255, blank=True)
     stripe_access_token = models.CharField(max_length=255, blank=True)
     referral_code = models.CharField(default=generate_referral_code, unique=True, editable=False, max_length=7)
+
+
+@receiver(post_save, sender=Customer)
+def set_customer_perms(sender, **kwargs):
+    customer, created = kwargs["instance"], kwargs["created"]
+    user = customer.user
+    if created and user.username != settings.ANONYMOUS_USER_NAME:
+        user.user_permissions.add(Permission.objects.get(name='Can view restaurant'))
+        assign_perm("change_customer", user, customer)
 
 
 
